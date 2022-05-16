@@ -1,0 +1,86 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="aggressiveLazyLoading" value="false" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="autoMappingUnknownColumnBehavior" value="NONE" />
+		<setting name="returnInstanceForEmptyRow" value="true" />
+
+	</settings>
+
+
+
+	<typeAliases>
+		<typeAlias alias="BangDiem_SinhVien_MonHoc"
+			type="com.solienlac.khoaluan.web.domain.BangDiem_SinhVien_MonHoc" />
+		<typeAlias alias="BangDiemTongKet"
+			type="com.solienlac.khoaluan.web.domain.BangDiemTongKet" />
+		<typeAlias alias="CanhBao"
+			type="com.solienlac.khoaluan.web.domain.CanhBao" />
+		<typeAlias alias="DonXinNghiHoc"
+			type="com.solienlac.khoaluan.web.domain.DonXinNghiHoc" />
+		<typeAlias alias="GiangVien"
+			type="com.solienlac.khoaluan.web.domain.GiangVien" />
+		<typeAlias alias="Lop"
+			type="com.solienlac.khoaluan.web.domain.Lop" />
+		<typeAlias alias="LopHocPhan"
+			type="com.solienlac.khoaluan.web.domain.LopHocPhan" />
+		<typeAlias alias="MonHoc"
+			type="com.solienlac.khoaluan.web.domain.MonHoc" />
+		<typeAlias alias="NgayNghi"
+			type="com.solienlac.khoaluan.web.domain.NgayNghi" />
+		<typeAlias alias="PhuHuynh"
+			type="com.solienlac.khoaluan.web.domain.PhuHuynh" />
+		<typeAlias alias="SinhVien_LopHocPhan"
+			type="com.solienlac.khoaluan.web.domain.SinhVien_LopHocPhan" />
+		<typeAlias alias="SinhVien"
+			type="com.solienlac.khoaluan.web.domain.SinhVien" />
+		<typeAlias alias="TaiKhoan"
+			type="com.solienlac.khoaluan.web.domain.TaiKhoan" />
+		<typeAlias alias="ThongBao_Lop"
+			type="com.solienlac.khoaluan.web.domain.ThongBao_Lop" />
+		<typeAlias alias="ThongBao_LopHocPhan"
+			type="com.solienlac.khoaluan.web.domain.ThongBao_LopHocPhan" />
+		<typeAlias alias="ThongBao"
+			type="com.solienlac.khoaluan.web.domain.ThongBao" />
+		<typeAlias alias="GetLopDto"
+			type="com.solienlac.khoaluan.web.common.dto.fix.GetLopDto" />
+		<typeAlias alias="GetLopHocPhanDto"
+			type="com.solienlac.khoaluan.web.common.dto.fix.GetLopHocPhanDto" />
+		<typeAlias alias="FixDonXinNghiHocDto"
+			type="com.solienlac.khoaluan.web.common.dto.fix.FixDonXinNghiHocDto" />
+		<typeAlias alias="GetLopHocSinhVien"
+			type="com.solienlac.khoaluan.web.common.dto.fix.GetLopHocSinhVien" />
+		<typeAlias alias="GetLopHocByIdSinhVien"
+			type="com.solienlac.khoaluan.web.common.dto.fix.GetLopHocByIdSinhVien" />
+		<typeAlias alias="GetSinhVienByIdSVLHP"
+			type="com.solienlac.khoaluan.web.common.dto.fix.GetSinhVienByIdSVLHP" />
+		<typeAlias alias="DiemSinhVienMonHocDtoFix"
+			type="com.solienlac.khoaluan.web.common.dto.fix.DiemSinhVienMonHocDtoFix" />
+		<typeAlias alias="GetThongBaoLop"
+			type="com.solienlac.khoaluan.web.common.dto.fix.GetThongBaoLop" />
+		<typeAlias alias="GetCanhBaoDto"
+			type="com.solienlac.khoaluan.web.common.dto.fix.GetCanhBaoDto" />
+		<typeAlias alias="GetThongBaoLopHocPhanSinhVienFixDto"
+			type="com.solienlac.khoaluan.web.common.dto.fix.GetThongBaoLopHocPhanSinhVienFixDto" />
+		<typeAlias alias="GetThongBaoLopSinhVienFixDto"
+			type="com.solienlac.khoaluan.web.common.dto.fix.GetThongBaoLopSinhVienFixDto" />
+		<typeAlias alias="GetDonXinNghiHocByIdSV"
+			type="com.solienlac.khoaluan.web.common.dto.fix.GetDonXinNghiHocByIdSV" />
+	</typeAliases>
+
+	<mappers>
+
+		<mapper resource="Lop.xml" />
+		<mapper resource="LopHocPhan.xml" />
+		<mapper resource="DonXinNghiHoc.xml" />
+		<mapper resource="CanhBao.xml" />
+		<mapper resource="thongbao.xml" />
+	</mappers>
+
+</configuration>
+
+

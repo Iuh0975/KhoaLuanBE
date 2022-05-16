@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solienlac.khoaluan.web.repository.LopQueryRepository">
+
+	<select resultSetType="FORWARD_ONLY"   flushCache="true" id="getLop" resultType="GetLopDto">
+			select l.id,l.tenLop,l.chuyenNganh,l.khoaHoc,(select count(*) from sinhvien  where sinhvien.idLop =l.id) as "SiSo" from lop as l left join sinhvien as s on l.id =s.idLop where l.idGiangVien = 11 group by l.id;
+	</select> 
+	
+	<select id="getSinhVienByLopHoc" resultType="GetLopHocSinhVien">
+		select distinct s.id,s.maSinhVien,s.hoTen,s.email,s.soDienThoai,s.trangThaiSV,b.diemTbTL,s.gioiTinh,c.trangThai from sinhvien s join bangdiemtongket b on s.idBangDiemTongKet = b.id left join canhbao c on s.id = c.idSinhVien WHERE s.idLop = #{idLop};
+	</select>
+	
+	
+	<select id="getThongBaoLopById" resultType="GetThongBaoLop" parameterType="int">
+		select tbl.idThongBao,tb.tieuDe,tb.ngayTao,tb.noiDung,tb.hienThi,tb.trangThai from thongbao_lop tbl join thongbao tb on tbl.idThongBao = tb.id WHERE tb.idGiangVien= #{idGiangVien} and tbl.idLop = #{idLopHoc};
+	</select>
+
+ 
+	<resultMap type="GetLopDto" id="result"> 
+	
+		<result property="id" column="id"/>
+		<result property="tenLop" column="tenLop"/> 
+		<result property="chuyenNganh" column="chuyenNganh"/>
+		<result property="khoaHoc" column="khoaHoc"/>
+
+	</resultMap>
+</mapper> 
+ 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.solienlac.khoaluan.web.repository.LopHocPhanCustomRepository">
+
+	<select id="getLopHocPhan" resultType="GetLopHocPhanDto">
+		select
+		l.id,l.tenLopHocPhan,l.idMonHoc,m.tenMonHoc,l.thu,l.hocki,(select
+		count(*) from sinhvien_lophocphan where
+		sinhvien_lophocphan.idLopHocPhan =l.id) as "siSo" from lophocphan l
+		join monhoc m on l.idMonHoc = m.id WHERE l.idGiangVien =
+		#{idGiangVien};
+	</select>
+
+	<select id="getSinhVienByIdLHP" parameterType="int" resultMap="rsGetSinhVienByIdLHP">
+		select
+		slp.idSvLhp,s.id,s.maSinhVien,s.email,s.hoTen,d.id,d.diemTK1,d.diemTK2,d.diemTK3,d.diemGK,d.diemCK,d.diemTBC,
+		(select count(*) from ngaynghihoc where ngaynghihoc.coPhep=1 and
+		ngaynghihoc.idSinhVien_LopHocPhan = slp.idSvLhp) as "soNgayNghiPhep",
+		(select count(*) from ngaynghihoc where ngaynghihoc.coPhep=0 and
+		ngaynghihoc.idSinhVien_LopHocPhan = slp.idSvLhp) as
+		"soNgayNghiKhongPhep",
+		slp.trangThai
+		from sinhvien_lophocphan as slp join sinhvien s on slp.idSinhVien = s.id
+		join bangdiemtongket b on s.idBangDiemTongKet = b.id
+		join diem_sinhvien_monhoc d on b.id = d.idBangDiemTongKet
+		join lophocphan l on l.id = slp.idLopHocPhan
+		where slp.idLopHocPhan = 24 and l.idMonHoc = d.idMonHoc;
+
+	</select>
+	
+	<select id="getThongBaoLopById" resultType="GetThongBaoLop" parameterType="int">
+		select tbl.idThongBao,tb.tieuDe,tb.ngayTao,tb.noiDung,tb.hienThi,tb.trangThai from thongbao_lophocphan tbl join thongbao tb on tbl.idThongBao = tb.id WHERE tb.idGiangVien= #{idGiangVien} and tbl.idLopHocPhan = #{idLopHoc};
+	</select>
+	
+	
+	<resultMap type="GetSinhVienByIdSVLHP" id="rsGetSinhVienByIdLHP">
+	
+		<result property="idSvLhp" column="idSvLhp"/>
+		<result property="maSinhVien" column="maSinhVien"/>
+		<result property="email" column="email"/>
+		<result property="hoTen" column="hoTen"/>
+		<result property="id" column="id"/>
+		<result property="soNgayNghiPhep" column="soNgayNghiPhep"/>
+		<result property="soNgayNghiKhongPhep" column="soNgayNghiKhongPhep"/>
+		<result property="trangThai" column="trangThai"/>
+		<association property="diemSinhVienMonHocDtoFix" javaType="DiemSinhVienMonHocDtoFix" >
+			<result property="id" column="id"/>
+			<result property="diemTK1" column="diemTK1"/>
+			<result property="diemTK2" column="diemTK2"/>
+			<result property="diemTK3" column="diemTK3"/>
+			<result property="diemGK" column="diemGK"/>
+			<result property="diemCK" column="diemCK"/>
+			<result property="diemTBC" column="diemTBC"/>
+		</association>
+	</resultMap>
+	
+</mapper>

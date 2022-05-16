@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solienlac.khoaluan.web.repository.ThongBaoCustomRepository">
+
+
+	<select id="listThongBaoLopHocPhan" parameterType="int" resultType="GetThongBaoLopHocPhanSinhVienFixDto">
+	
+           select t.id,t.ngayTao,t.noiDung,t.tieuDe, g.hoTen from thongbao t join giangvien g on t.idGiangVien = g.id join thongbao_lophocphan tbl on tbl.idThongBao = t.id join sinhvien_lophocphan svl on svl.idLopHocPhan = tbl.idLopHocPhan where svl.idSinhVien = #{idSinhVien};
+   
+
+	</select>
+	
+	<select id="listThongBaoLop" parameterType="int" resultType="GetThongBaoLopSinhVienFixDto">
+	 	select t.id,t.ngayTao,t.noiDung,t.tieuDe, g.hoTen from thongbao t join giangvien g on t.idGiangVien = g.id join thongbao_lop tb on tb.idThongBao = t.id join lop l on l.id = tb.idLop join sinhvien s on s.idLop = l.id where s.id = #{idSinhVien};  
+	
+	</select>
+
+</mapper>

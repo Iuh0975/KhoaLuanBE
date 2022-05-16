@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.solienlac.khoaluan.web.repository.DonXinNghiHocCustomRepository">
+
+
+	<select id="getListDonXinHocByIdGiangVien"
+		resultType="FixDonXinNghiHocDto">
+		select
+		d.id,d.idSinhVien,s.maSinhVien,s.hoTen,d.ngayNghi,d.ngayTao,d.trangThai,d.noiDung,l.tenLopHocPhan
+		from donxinnghihoc d join lophocphan l on d.idLopHocPhan = l.id join
+		sinhvien s on d.idSinhVien = s.id where l.idGiangVien = #{idGiangVien}
+		and d.idLopHocPhan = #{idLopHocPhan};
+	</select>
+
+	<select id="getListDonXinHocByIdSinhVien" parameterType="int"
+		resultType="GetDonXinNghiHocByIdSV">
+		select
+		d.id,d.idLopHocPhan,d.idSinhVien,s.maSinhVien,s.hoTen,lp.tenLopHocPhan,d.ngayNghi,d.ngayTao,d.trangThai,d.noiDung
+		from donxinnghihoc d join lophocphan lp on d.idLopHocPhan = lp.id join
+		sinhvien s on s.id = d.idSinhVien where d.idSinhVien = #{idSinhVien};
+	</select>
+</mapper>
