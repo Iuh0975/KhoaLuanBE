@@ -70,6 +70,8 @@
 			type="com.solienlac.khoaluan.web.common.dto.fix.GetThongBaoLopSinhVienFixDto" />
 		<typeAlias alias="GetDonXinNghiHocByIdSV"
 			type="com.solienlac.khoaluan.web.common.dto.fix.GetDonXinNghiHocByIdSV" />
+		
+		<typeAlias alias="ThoiHocDto" type="com.solienlac.khoaluan.web.common.dto.fix.ThoiHocDto"/>
 	</typeAliases>
 
 	<mappers>

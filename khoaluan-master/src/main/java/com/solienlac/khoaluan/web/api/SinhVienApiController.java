@@ -55,20 +55,6 @@ public class SinhVienApiController {
         return sinhVienService.chinhSuaSinhVien(id,putSinhVienParam);
     }
 
-
-    /**
-     * 
-     * @param idSinhVien
-     * @return
-     *  
-            "id": 25,
-            "tieuDe": "Thong bao demo",
-            "thongBaoType": "TB_LOP",
-            "noiDung": "noi dung thong bao demo",
-            "ngayTao": 1647622800000,
-            "tenGiangVien": "Vũ Đức Thiện"
-     */
-
     @GetMapping("/{idSinhVien}/thongbaos")
     public Object getThongBaoByIdSinhVien(@PathVariable("idSinhVien") Integer idSinhVien){
     	
@@ -95,21 +81,6 @@ public class SinhVienApiController {
         return donXinNghiHocService.xinNghiHoc(xinNghiHocParam);
     }
 
-    
-    /**
-     * 
-     * @param idSinhVien
-     * @return
-     *      "idDonXinNghiHoc": 10,
-        "idSinhVien": 2,
-        "maSV": "sv68a0",
-        "tenSinhVien": "Phạm Quốc Toàn",
-        "tenLopHocPhan": "Đại Học Âm Nhạc Dân Tộc",
-        "ngayNghi": 1640106000000,
-        "ngayTao": "2021-12-18T17:00:00.000+00:00",
-        "trangThai": true,
-        "noiDung": "Thưa cô em xin nghỉ học vì hôm đấy em sẽ về quê khám nghĩa vụ"
-     */
     @GetMapping("/{idSinhVien}/donxinnghihoc")
     public Object donNghiHocs(@PathVariable("idSinhVien") Integer idSinhVien){
         return new ResponseEntity<Object>(donXinNghiHocCustomRepository.getListDonXinHocByIdSinhVien(idSinhVien),HttpStatus.OK);

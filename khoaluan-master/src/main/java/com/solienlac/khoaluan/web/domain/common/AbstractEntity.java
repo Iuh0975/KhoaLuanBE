@@ -18,12 +18,9 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractEntity {
 
-//
-//
     @CreatedDate
     @Column(name = "ngayTao")
     private Date ngayTao;
-//
 
     @Setter
     @LastModifiedDate

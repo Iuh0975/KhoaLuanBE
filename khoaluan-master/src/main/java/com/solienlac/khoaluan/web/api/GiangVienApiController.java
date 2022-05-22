@@ -53,15 +53,6 @@ public class GiangVienApiController {
     private final DonXinNghiHocCustomRepository donXinNghiHocCustomRepository;
     private final CanhBaoCustomRepository canhBaoCustomRepository;
     
-    /*
-     *Lấy danh sách tất cả lớp học của giảng viên theo mã giảng viên(idGiangVien)
-     * @return param:
-         id
-        tenLop
-        chuyenNganh
-        khoaHoc
-        siSo
-     */
     @GetMapping("/{idGiangVien}/danhsachlophoc")
     public ResponseEntity<Object> getLops(@PathVariable("idGiangVien") int idGiangVien){
 
@@ -76,13 +67,22 @@ public class GiangVienApiController {
 
 
       /*
-        Send message to phuHuynh and hocSinh
+        Send message to phuHuynh and hocSinh 
+        Check số lần cảnh báo >= 3 ==> thôi học
       */
     @PostMapping("/canhbao")
     @ResponseStatus(HttpStatus.CREATED)
     public Integer smsCanhBaoSinhVien(@RequestBody PostSmsCanhBao thongTinCanhBao) throws IllegalAccessException {
         return service.senderSms(thongTinCanhBao);
     }
+    /**
+     * 
+     * @param idGiangVien
+     * @param idDonNghiHoc
+     * @return
+     */
+    
+    // update trạng thái thôi học
 
     @PutMapping("/donnghihoc/{idGiangVien}/{idDonNghiHoc}")
     @ResponseStatus(HttpStatus.OK)
@@ -91,22 +91,6 @@ public class GiangVienApiController {
         return donXinNghiHocService.duyetDonXinNghiHoc(idGiangVien,idDonNghiHoc);
     }
 
-    /**
-     * 
-     * @param idGiangVien
-     * @param idLopHocPhan
-     * @return
-     * 
-     *       "idDonXinNghiHoc"
-            "idSinhVien"
-            "maSV"
-            "tenSinhVien"
-            "tenLopHocPhan"
-            "ngayNghi"
-            "ngayTao"
-            "trangThai"
-            "noiDung"
-     */
     @GetMapping("/{idGiangVien}/{idLopHocPhan}/list-donxinnghihoc")
     public ResponseEntity<Object> getDonXinNghiHoc(@PathVariable("idGiangVien") Integer idGiangVien,@PathVariable("idLopHocPhan") Integer idLopHocPhan){
 
@@ -160,9 +144,6 @@ public class GiangVienApiController {
         return thongBaoService.chinhSuaThongBaoLop(idThongBao,postThongBaoLop);
     }
 
-
-
-
     @PutMapping("/{idThongBao}/thongbaolop/hienthi")
     public Integer chinhSuaHienThiThongBaoLopHoc(@PathVariable("idThongBao") Integer idThongBao){
         return thongBaoService.chinhSuaHienThiThongBaoLop(idThongBao);
@@ -196,7 +177,5 @@ public class GiangVienApiController {
     public ResponseEntity<Void> xoaNgayNghi(@PathVariable Integer id){
         return ngayNghiService.xoaNgayNghi(id);
     }
-
-
 
 }

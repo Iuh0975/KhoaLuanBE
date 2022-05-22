@@ -1,6 +1,5 @@
 package com.solienlac.khoaluan.web.config;
 
-import com.solienlac.khoaluan.web.domain.common.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;

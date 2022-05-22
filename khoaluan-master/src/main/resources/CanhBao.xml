@@ -7,4 +7,12 @@
 		select c.id,c.idSinhVien,s.hoTen,c.noiDung,c.tieuDe,c.ngayTao,c.trangThai from canhbao c join sinhvien s on c.idSinhVien = s.id where c.idGiangVien = #{idGiangVien} and c.idSinhVien = #{id};
 	
 	</select>
+	
+	<select id="checkSoLanCanhBao" resultType="ThoiHocDto">
+		select count(c.id) as 'slCanhBao',s.hoTen,s.maSinhVien from sinhvien s join canhbao c on s.id = c.idSinhVien where s.id = #{maSinhVien};
+	</select>
+	
+	<update id="updateTrangThaiThoiHoc">
+		update sinhvien set  trangThaiSV = #{trangThai} where id = #{id};
+	</update>
 </mapper>

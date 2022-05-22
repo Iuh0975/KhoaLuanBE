@@ -3,12 +3,15 @@ package com.solienlac.khoaluan.web.service.impl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.solienlac.khoaluan.web.common.dto.fix.ThoiHocDto;
 import com.solienlac.khoaluan.web.common.dto.param.PostSmsCanhBao;
 import com.solienlac.khoaluan.web.config.TwilioConfig;
 import com.solienlac.khoaluan.web.domain.CanhBao;
 import com.solienlac.khoaluan.web.domain.GiangVien;
 import com.solienlac.khoaluan.web.domain.PhuHuynh;
 import com.solienlac.khoaluan.web.domain.SinhVien;
+import com.solienlac.khoaluan.web.domain.common.TrangThaiSinhVien;
+import com.solienlac.khoaluan.web.repository.CanhBaoCustomRepository;
 import com.solienlac.khoaluan.web.repository.CanhBaoRepository;
 import com.solienlac.khoaluan.web.repository.GiangVienRepository;
 import com.solienlac.khoaluan.web.repository.SinhVienRepository;
@@ -27,6 +30,7 @@ public class SmsSenderServiceImpl implements SmsSenderService {
     private final SinhVienRepository sinhVienRepository;
     private final GiangVienRepository giangVienRepository;
     private final CanhBaoRepository canhBaoRepository;
+    private final CanhBaoCustomRepository canhBaoCustomRepository;
     @Value("twilio.account_sid")
     private String account_sid;
     @Value("twilio.auth_token")
@@ -40,6 +44,11 @@ public class SmsSenderServiceImpl implements SmsSenderService {
 
         PhuHuynh phuHuynh = sinhVien.getPhuHuynh();
         GiangVien giangVien = giangVienRepository.findById(thongTinCanhBao.getIdGiangVien()).orElse(null);
+        
+        ThoiHocDto thoiHocDto = canhBaoCustomRepository.checkSoLanCanhBao(thongTinCanhBao.getIdSinhVien());
+  
+        int soLan = thoiHocDto.getSlCanhBao() + 1;
+                
         if (isPhoneNumberValid(sinhVien.getSoDienThoai()
                 ,phuHuynh.getSoDienThoai())){
             Twilio.init(twilioConfig.getAccount_sid(), twilioConfig.getAuth_token());
@@ -48,10 +57,30 @@ public class SmsSenderServiceImpl implements SmsSenderService {
 
             PhoneNumber toPhuHuynh = new PhoneNumber(phuHuynh.getSoDienThoai());
             PhoneNumber toSinhVien = new PhoneNumber(sinhVien.getSoDienThoai());
-
-            String message =thongTinCanhBao.getTieuDe()+" \n "+ thongTinCanhBao.getNoiDung();
-            MessageCreator creatorPhuHuynh = Message.creator(toPhuHuynh,from,message);
-            MessageCreator creatorSinhVien = Message.creator(toSinhVien,from,message);
+            
+            
+            
+            String importantMessage = "Đây là lần cảnh báo thứ " + soLan + "\n" + "Cảnh báo lần 3 sẽ buộc sinh viên thôi học";
+            String thoiHocMessage = "Anh/Chị đã bị buộc thôi học do bị cảnh báo 3 lần. Thông tin liên hệ tới khoa !!!!";
+            String message =thongTinCanhBao.getTieuDe()+" \n "+ thongTinCanhBao.getNoiDung() + "\n " + importantMessage;
+            String endMessage =thongTinCanhBao.getTieuDe()+" \n "+ thongTinCanhBao.getNoiDung() + "\n " + thoiHocMessage;
+            
+            MessageCreator creatorPhuHuynh = null;
+            MessageCreator creatorSinhVien = null;
+            
+            // Lần 3 sẽ bị thôi học
+            if(soLan >= 3 ) {
+            	
+            	// update trang thai thoi hoc
+            	canhBaoCustomRepository.updateTrangThaiThoiHoc(TrangThaiSinhVien.THOI_HOC, thongTinCanhBao.getIdSinhVien());
+                creatorPhuHuynh = Message.creator(toPhuHuynh,from,endMessage);
+                creatorSinhVien = Message.creator(toSinhVien,from,endMessage);
+            	
+            }else {
+                 creatorPhuHuynh = Message.creator(toPhuHuynh,from,message);
+                 creatorSinhVien = Message.creator(toSinhVien,from,message);
+            }
+    
             
             creatorPhuHuynh.create();
             creatorSinhVien.create();

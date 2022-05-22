@@ -58,6 +58,5 @@ public class TaiKhoanApiController {
         System.out.println(file.getOriginalFilename());;
         return taiKhoanService.uploadImgUrl(id, file);
     }
-    
 
 }
